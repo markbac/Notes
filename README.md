@@ -13,7 +13,14 @@
   - Share fixtures etc
   - Issues deleting soem invoices
   - Any reporting changes?
+- Should other club officials register in LoveAdmin
+  - Coaches
+  - Exec
 - Can we use LoveAdmin for more than just membership payments?
+  - e.g 
+    - Training kit
+    - Sportspersons dinner
+  
 
 ### Digital
 - Should we have club email addresses?
