@@ -8,21 +8,23 @@
 - Create a Exec version of FAQ
 - Do I need to update the YouTube video I did of sign up process
 - Any feature changes we want
--- when will we get WhatsApp
---  Allowing managers to see teams
---  Share fixtures etc
+  - when will we get WhatsApp
+  - Allowing managers to see teams
+  - Share fixtures etc
+  - Issues deleting soem invoices
+  - Any reporting changes?
 - Can we use LoveAdmin for more than just membership payments?
 
 ### Digital
 - Should we have club email addresses?
 - Where can we share documents?
--- Exec related
--- Internal to club
--- Public
+  - Exec related
+  - Internal to club
+  - Public
 
 ### Social
 - Should we have a club youtube. 
--- Could have a club intro video on there as well
+  - Could have a club intro video on there as well
 
 ### Policies and Processes
 - Updated Processes and policies
