@@ -5,7 +5,13 @@
 - Shoudl we ask 2 questions on sign up to see if we can contact them, 1 for club related and 1 for partner related, e.g CANW . This is for GDPR
 - Dry run transitioning LoveAdmin to the 23/24 season
 - Keep updating the FAQ,
-- Create a Exec version of FAQ
+- Create a Exec/Finance/Secretary version of FAQ
+  - Show how to create a product
+  - How to approve an order
+  - how to cancel an order
+  - How to remove a member 
+  - View reports
+  - Download data  (with Warninsg on how to manage this data when downloaded
 - Do I need to update the YouTube video I did of sign up process
 - Any feature changes we want
   - when will we get WhatsApp
