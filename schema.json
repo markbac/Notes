@@ -1,49 +1,38 @@
 {
-    "type": "object",
-    "properties": {
-        "global_values": {
-            "type": "object",
-            "properties": {
-                "author": {"type": "string"},
-                "document_name": {"type": "string"},
-                "document_version": {"type": "string"},
-                "output_directory": {"type": "string"},
-                "protected": {"type": "boolean"},
-                "compacted": {"type": "boolean"},
-                "add_toc": {"type": "boolean"},
-                "add_bookmarks": {"type": "boolean"}
-            },
-            "required": ["author", "document_name", "document_version", "output_directory"],
-            "additionalProperties": false
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "output_directory": {"type": "string"},
+    "document_name": {"type": "string"},
+    "document_version": {"type": "string"},
+    "author": {"type": "string"},
+    "merge_files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "file_name": {"type": "string"},
+          "document_number": {"type": "string"},
+          "document_name": {"type": "string"},
+          "category": {"type": "string"},
+          "sub_category": {"type": "string", "default": "example"},
+          "merge": {"type": "boolean", "default": true},
+          "watermark_present": {"type": "boolean", "default": false},
+          "add_toc": {"type": "boolean", "default": false},
+          "add_bookmarks": {"type": "boolean", "default": false},
+          "display_page_number": {"type": "boolean", "default": false},
+          "page_layout": {"enum": ["single", "continuous", "two-column-right", "two-column-left", "two-page-right", "two-page-left"], "default": "single"},
+          "page_mode": {"enum": ["none", "use-outlines", "use-thumbs", "full-screen", "use-oc"], "default": "none"}
         },
-        "files": {
-            "type": "array",
-            "items": {
-                "type": "object",
-                "properties": {
-                    "file_name": {"type": "string"},
-                    "document_number": {"type": "string"},
-                    "document_name": {"type": "string"},
-                    "document_category": {"type": "string"},
-                    "document_subcategory": {"type": "string"},
-                    "version": {"type": "string"},
-                    "author": {"type": "string"},
-                    "merge": {"type": "boolean"},
-                    "watermark_present": {"type": "boolean"},
-                    "merge_order": {"type": "integer"},
-                    "page_number_display": {"type": "boolean"}
-                },
-                "required": ["file_name", "document_name", "document_category", "merge_order"],
-                "additionalProperties": false
-            }
-        },
-        "category_merge_order": {
-            "type": "object",
-            "patternProperties": {
-                "^[A-Za-z]+$": {"type": "integer"}
-            }
-        }
+        "required": ["file_name", "category"],
+        "additionalProperties": false
+      }
     },
-    "required": ["global_values", "files"],
-    "additionalProperties": false
+    "category_order": {
+      "type": "array",
+      "items": {"type": "string"}
+    }
+  },
+  "required": ["merge_files"],
+  "additionalProperties": false
 }
