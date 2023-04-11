@@ -1,72 +1,73 @@
 import os
+import re
 import json
 
-# function to extract category and subcategory from filename
-def extract_category(filename):
-    category, subcategory = filename.split("_")[1:3]
-    return category, subcategory
+dir_path = "/path/to/files"
 
-# function to generate JSON schema for a given directory
-def generate_json_schema(directory_path, default_category_order):
-    schema = {
+def get_file_data(file_path):
+    # extract data from filename using regex
+    pattern = r"(?P<document_number>\d+)_(?P<document_name>.+)_Cat(?P<category>.+)_Sub(?P<sub_category>.+)_Ver(?P<version>\d+)\.pdf"
+    match = re.match(pattern, os.path.basename(file_path))
+    if match:
+        return {
+            "file_name": os.path.basename(file_path),
+            "document_number": match.group("document_number"),
+            "document_name": match.group("document_name"),
+            "category": match.group("category"),
+            "sub_category": match.group("sub_category"),
+            "version": int(match.group("version")),
+            "merge": True,
+            "watermark_present": False,
+            "page_number_display": False
+        }
+    else:
+        return None
+
+def create_merge_order(files):
+    merge_order = {}
+    for file in files:
+        if file["category"] not in merge_order:
+            merge_order[file["category"]] = [{"sub_category": file["sub_category"], "merge_order": 2}]
+        elif any(d.get("sub_category") == file["sub_category"] for d in merge_order[file["category"]]):
+            pass
+        else:
+            merge_order[file["category"]].append({"sub_category": file["sub_category"], "merge_order": 2})
+    return merge_order
+
+def main():
+    # get list of all pdf files in directory
+    pdf_files = [os.path.join(dir_path, f) for f in os.listdir(dir_path) if f.endswith(".pdf")]
+
+    # get data for each pdf file
+    files_data = [get_file_data(file) for file in pdf_files]
+    files_data = list(filter(None, files_data))
+
+    # create merge order
+    default_merge_order = create_merge_order(files_data)
+    category_order = list(default_merge_order.keys())
+
+    # create dictionary with all data
+    json_data = {
         "global_values": {
-            "author": "John Doe",
-            "document_name": "Merged Document",
-            "document_version": "1.0",
-            "output_directory": os.path.join(directory_path, "output"),
-            "is_protected": False,
-            "is_compacted": False,
-            "add_table_of_contents": True,
-            "add_bookmarks": True
+            "author": "",
+            "document_name": "",
+            "output_directory": "",
+            "document_version": ""
         },
-        "file_list": []
+        "files": files_data,
+        "options": {
+            "add_table_of_contents": False,
+            "add_bookmarks": False,
+            "output_protected": False,
+            "output_compacted": False
+        },
+        "default_merge_order": default_merge_order,
+        "category_order": category_order
     }
 
-    # get list of files in directory
-    file_list = os.listdir(directory_path)
+    # write dictionary to json file
+    with open(os.path.join(dir_path, "mergeFiles.json"), "w") as outfile:
+        json.dump(json_data, outfile, indent=4)
 
-    # loop through files in directory
-    for filename in file_list:
-        # only process PDF files
-        if not filename.endswith(".pdf"):
-            continue
-
-        # extract document information from filename
-        doc_number, category, subcategory, version = filename[:-4].split("_")
-        category = category.capitalize()
-        subcategory = subcategory.capitalize()
-
-        # get merge order for category
-        if category in default_category_order:
-            merge_order = default_category_order[category]
-        else:
-            merge_order = len(default_category_order) + 1
-            default_category_order[category] = merge_order
-
-        # create file schema
-        file_schema = {
-            "filename": filename,
-            "doc_number": doc_number,
-            "doc_name": "",
-            "category": category,
-            "subcategory": subcategory,
-            "version": version,
-            "merge": True,
-            "watermark": False,
-            "merge_order": merge_order,
-            "add_page_numbers": True
-        }
-
-        # add file schema to JSON schema
-        schema["file_list"].append(file_schema)
-
-    # write JSON schema to file
-    with open(os.path.join(directory_path, "mergeFiles.json"), "w") as f:
-        json.dump(schema, f, indent=4)
-
-    return schema
-
-# example usage
-directory_path = "/path/to/pdf/files"
-default_category_order = {"Policy": 1, "Codeofconduct": 2, "Procedures": 3}
-generate_json_schema(directory_path, default_category_order)
+if __name__ == "__main__":
+    main()
