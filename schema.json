@@ -1,0 +1,49 @@
+{
+    "type": "object",
+    "properties": {
+        "global_values": {
+            "type": "object",
+            "properties": {
+                "author": {"type": "string"},
+                "document_name": {"type": "string"},
+                "document_version": {"type": "string"},
+                "output_directory": {"type": "string"},
+                "protected": {"type": "boolean"},
+                "compacted": {"type": "boolean"},
+                "add_toc": {"type": "boolean"},
+                "add_bookmarks": {"type": "boolean"}
+            },
+            "required": ["author", "document_name", "document_version", "output_directory"],
+            "additionalProperties": false
+        },
+        "files": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "file_name": {"type": "string"},
+                    "document_number": {"type": "string"},
+                    "document_name": {"type": "string"},
+                    "document_category": {"type": "string"},
+                    "document_subcategory": {"type": "string"},
+                    "version": {"type": "string"},
+                    "author": {"type": "string"},
+                    "merge": {"type": "boolean"},
+                    "watermark_present": {"type": "boolean"},
+                    "merge_order": {"type": "integer"},
+                    "page_number_display": {"type": "boolean"}
+                },
+                "required": ["file_name", "document_name", "document_category", "merge_order"],
+                "additionalProperties": false
+            }
+        },
+        "category_merge_order": {
+            "type": "object",
+            "patternProperties": {
+                "^[A-Za-z]+$": {"type": "integer"}
+            }
+        }
+    },
+    "required": ["global_values", "files"],
+    "additionalProperties": false
+}
