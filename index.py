@@ -2,7 +2,13 @@ import os
 import re
 import json
 
-# Set global variables
+# Regular expression pattern to extract document number, name, category, sub-category, and version from filename
+filename_pattern = re.compile(r"^(?P<category>\w+)\s?-?\s?(?P<sub_category>\w*)\s?-?\s?(?P<document_name>.+)\s?-?\s?v?(?P<version>\d+\.\d+)\.pdf$", re.IGNORECASE)
+
+# Directory containing PDF files to be indexed
+pdf_directory = "./pdfs"
+
+# Global document information
 global_info = {
     "author": "John Doe",
     "document_name": "Merged Document",
@@ -14,6 +20,10 @@ global_info = {
     "bookmarks": True
 }
 
+# List to store file information
+file_info = []
+
+# Default merge order for each category and sub-category
 default_merge_order = {
     "Policy": [
         {
@@ -32,29 +42,55 @@ default_merge_order = {
     ]
 }
 
+# Order in which to merge each category
 category_order = [
     "CodeOfConduct",
     "Policy"
 ]
 
-# Create an empty list to store the file information
-file_info_list = []
-
-# Define a function to parse the filename and create a dictionary
-def parse_filename(filename):
-    # Use regex to extract information from the filename
-    pattern = r'(?P<category>[\w\s]+)-(?P<sub_category>[\w\s]+)-v(?P<version>[\d\.]+).pdf'
-    match = re.search(pattern, filename)
-    
-    # If regex match found, create dictionary
+# Loop through PDF files in directory
+for filename in os.listdir(pdf_directory):
+    if not filename.endswith(".pdf"):
+        continue
+        
+    # Extract document information from filename using regular expression
+    match = filename_pattern.match(filename)
     if match:
-        category = match.group('category').strip()
-        sub_category = match.group('sub_category').strip()
-        version = match.group('version').strip()
+        document_number = ""
+        document_name = match.group("document_name")
+        category = match.group("category")
+        sub_category = match.group("sub_category")
+        version = match.group("version")
+    else:
+        document_number = ""
+        document_name = ""
+        category = ""
+        sub_category = ""
+        version = ""
         
-        document_name = category + ' ' + sub_category
-        document_number = ''
-        merge_order = None
-        
-        # Check if default merge order exists for category and sub-category
-        if category in default_merge_order:
+    # Create dictionary for file information
+    file_dict = {
+        "file_name": filename,
+        "document_number": document_number,
+        "document_name": document_name,
+        "category": category,
+        "sub_category": sub_category,
+        "version": version,
+        "merge": True,
+        "watermark_present": False,
+        "page_numbers": True
+    }
+    
+    # Add file dictionary to list
+    file_info.append(file_dict)
+
+# Create dictionary to store all information
+merged_dict = {
+    "global": global_info,
+    "files": file_info,
+    "default_merge_order": default_merge_order,
+    "category_order": category_order
+}
+
+# Output dictionary as JSON
+print(json.dumps(merged_dict, indent=4))
