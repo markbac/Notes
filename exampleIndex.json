@@ -1,52 +1,68 @@
 {
-  "author": "John Doe",
-  "document_name": "Company Policies",
-  "document_version": "1.0",
-  "output_directory": "merged_pdfs",
-  "table_of_contents": true,
-  "bookmarks": true,
-  "protected": true,
-  "compacted": false,
+  "global": {
+    "author": "John Doe",
+    "document_name": "Merged Document",
+    "document_version": "1.0",
+    "output_directory": "./output/",
+    "protected": true,
+    "compacted": true,
+    "table_of_contents": true,
+    "bookmarks": true
+  },
   "files": [
     {
-      "file_name": "001_Policy_DataProtection.pdf",
-      "document_number": "001",
+      "file_name": "Policy - DataProtection - v1.0.pdf",
+      "document_number": "12345",
       "document_name": "Data Protection Policy",
       "category": "Policy",
       "sub_category": "DataProtection",
       "version": "1.0",
-      "author": "Jane Smith",
       "merge": true,
-      "watermark_present": true,
-      "page_number_displayed": true
+      "watermark_present": false,
+      "page_numbers": true
     },
     {
-      "file_name": "002_Policy_InformationSecurity.pdf",
-      "document_number": "002",
+      "file_name": "CodeOfConduct-v2.3.pdf",
+      "document_number": "54321",
+      "document_name": "Code of Conduct",
+      "category": "CodeOfConduct",
+      "sub_category": "example",
+      "version": "2.3",
+      "merge": true,
+      "watermark_present": true,
+      "page_numbers": false
+    },
+    {
+      "file_name": "Policy - InformationSecurity - v2.0.pdf",
+      "document_number": "67890",
       "document_name": "Information Security Policy",
       "category": "Policy",
       "sub_category": "InformationSecurity",
-      "version": "1.1",
-      "author": "John Doe",
-      "merge": true,
-      "watermark_present": false,
-      "page_number_displayed": true
-    },
-    {
-      "file_name": "003_CodeOfConduct.pdf",
-      "document_number": "003",
-      "document_name": "Code of Conduct",
-      "category": "CodeOfConduct",
       "version": "2.0",
-      "author": "John Doe",
       "merge": true,
       "watermark_present": false,
-      "page_number_displayed": false
+      "page_numbers": true
     }
   ],
+  "default_merge_order": {
+    "Policy": [
+      {
+        "sub_category": "DataProtection",
+        "merge_order": 1
+      },
+      {
+        "sub_category": "InformationSecurity",
+        "merge_order": 2
+      }
+    ],
+    "CodeOfConduct": [
+      {
+        "merge_order": 1
+      }
+    ]
+  },
   "category_order": [
     "CodeOfConduct",
     "Policy"
   ]
 }
-
