@@ -1,12 +1,21 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Merge Files JSON Schema",
+  "description": "JSON schema for specifying how to merge PDF files",
   "type": "object",
   "properties": {
-    "output_directory": {"type": "string"},
-    "document_name": {"type": "string"},
-    "document_version": {"type": "string"},
-    "author": {"type": "string"},
-    "merge_files": {
+    "global_values": {
+      "type": "object",
+      "properties": {
+        "author": {"type": "string"},
+        "document_name": {"type": "string"},
+        "document_version": {"type": "string"},
+        "output_directory": {"type": "string"},
+        "protected": {"type": "boolean"},
+        "compacted": {"type": "boolean"}
+      }
+    },
+    "files": {
       "type": "array",
       "items": {
         "type": "object",
@@ -16,16 +25,32 @@
           "document_name": {"type": "string"},
           "category": {"type": "string"},
           "sub_category": {"type": "string", "default": "example"},
-          "merge": {"type": "boolean", "default": true},
-          "watermark_present": {"type": "boolean", "default": false},
-          "add_toc": {"type": "boolean", "default": false},
-          "add_bookmarks": {"type": "boolean", "default": false},
-          "display_page_number": {"type": "boolean", "default": false},
-          "page_layout": {"enum": ["single", "continuous", "two-column-right", "two-column-left", "two-page-right", "two-page-left"], "default": "single"},
-          "page_mode": {"enum": ["none", "use-outlines", "use-thumbs", "full-screen", "use-oc"], "default": "none"}
+          "version": {"type": "string"},
+          "author": {"type": "string"},
+          "merge": {"type": "boolean"},
+          "watermark_present": {"type": "boolean"},
+          "display_page_number": {"type": "boolean"},
+          "toc": {"type": "boolean"},
+          "bookmarks": {"type": "boolean"},
+          "merge_order": {"type": "integer"}
         },
-        "required": ["file_name", "category"],
+        "required": ["file_name", "document_name", "category"],
         "additionalProperties": false
+      }
+    },
+    "default_merge_order": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "sub_category": {"type": "string"},
+            "merge_order": {"type": "integer"}
+          },
+          "required": ["merge_order"],
+          "additionalProperties": false
+        }
       }
     },
     "category_order": {
@@ -33,6 +58,6 @@
       "items": {"type": "string"}
     }
   },
-  "required": ["merge_files"],
+  "required": ["files"],
   "additionalProperties": false
 }
