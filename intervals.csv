@@ -1,0 +1,8 @@
+start_time,duration,power,interruptible
+2023-04-27 08:00:00,3600,5.5,True
+,1800,6.2,True
+,5400,4.8,True
+,2700,7.1,False
+2023-04-27 11:45:00,9000,5.5,True
+,9000,-5.5,True
+
