@@ -1,9 +1,12 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+import pprint
+
+pp = pprint.PrettyPrinter(indent=4)
 
 # Read the CSV file into a Pandas DataFrame
-df = pd.read_csv('intervals.csv', parse_dates=['start_time'], dtype={'duration': 'float64'})
-print (df)
+df = pd.read_csv('Order-LD_FRC-1_Intervals-4_ESA_ID-ESA#1.csv', parse_dates=['start_time'], dtype={'duration': 'float64'})
+
 # Convert duration column to timedelta format
 df['duration'] = pd.to_timedelta(df['duration'], unit='s')
 
@@ -14,32 +17,23 @@ df['duration'] = pd.to_timedelta(df['duration'], unit='s')
 # Fill in missing start times
 prev_end_time = pd.Timestamp.min
 for i, row in df.iterrows():
-    print("---- %s", i)
     if pd.isna(row['start_time']):
-        if prev_end_time != pd.Timestamp.min:
-            print("19")
-            print("prev_end_time %s",prev_end_time)
-            print("pd.Timestamp.min %s", pd.Timestamp.min)
+        if not pd.isnull(prev_end_time):
             df.at[i, 'start_time'] = prev_end_time
         else:
-            df.at[i, 'start_time'] = df['start_time'].min()
+            df.at[i, 'start_time'] = df.at[i-1 ,'start_time'] + df.at[i-1 ,'duration']
+            
     prev_end_time = row['start_time'] + row['duration']
-    if prev_end_time == "":
-        print("blurgh")
-    print("prev_end_time %s", prev_end_time)
 
-print (df)
-
-print("---")
-exit()
 
 # Group the intervals by interruptibility
 groups = df.groupby('interruptible')
 
+pp.pprint(df)
+
 # Generate a histogram for each group
 fig, ax = plt.subplots(figsize=(16, 6))
 for interruptible, group in groups:
-    print("38")
     # Set the color of the bars based on interruptibility
     color = 'gray' if interruptible else 'blue'
     
