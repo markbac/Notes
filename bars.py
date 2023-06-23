@@ -1,4 +1,8 @@
-    for interruptible, group in groups:
+I am plotting bars as below. My width of the bars appear to be wrong (far too wide). The start tiem is UTS, e.g 2023-02-01 11@42:18.451204+00:00
+
+What is wrong
+
+for interruptible, group in groups:
         # Set the color of the bars based on interruptibility
         color = 'gray' if interruptible else 'blue'
         
