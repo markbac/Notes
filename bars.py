@@ -19,3 +19,8 @@ for interruptible, group in groups:
             color=color,  # set the color of the bars based on interruptibility
             label='Interruptible' if interruptible else 'Non-Interruptible'
         )   
+this is my dataset
+                        start_time        duration    power  interruptible
+0 2023-02-01 11:43:18.451204+00:00 0 days 01:00:00   3000.0          False
+1 2023-02-01 12:43:18.451204+00:00 0 days 03:00:00      0.0          False
+2 2023-02-01 15:43:18.451204+00:00 0 days 01:00:00  10000.0          False
