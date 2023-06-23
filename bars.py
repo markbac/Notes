@@ -1,4 +1,4 @@
-What improvemenst can i make to teh folowing
+give teh following how can i make teh bars alternate in color when not interruptible
 
 fig, ax = plt.subplots(figsize=(16, 6))
     for interruptible, group in groups:
