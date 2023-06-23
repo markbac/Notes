@@ -1,8 +1,7 @@
-I am plotting bars as below. My width of the bars appear to be wrong (far too wide). The start tiem is UTS, e.g 2023-02-01 11@42:18.451204+00:00
+What improvemenst can i make to teh folowing
 
-What is wrong
-
-for interruptible, group in groups:
+fig, ax = plt.subplots(figsize=(16, 6))
+    for interruptible, group in groups:
         # Set the color of the bars based on interruptibility
         color = 'gray' if interruptible else 'blue'
         
@@ -19,8 +18,28 @@ for interruptible, group in groups:
             color=color,  # set the color of the bars based on interruptibility
             label='Interruptible' if interruptible else 'Non-Interruptible'
         )   
-this is my dataset
-                        start_time        duration    power  interruptible
-0 2023-02-01 11:43:18.451204+00:00 0 days 01:00:00   3000.0          False
-1 2023-02-01 12:43:18.451204+00:00 0 days 03:00:00      0.0          False
-2 2023-02-01 15:43:18.451204+00:00 0 days 01:00:00  10000.0          False
+
+    # Add labels and legend
+    date_fmt = mdates.DateFormatter('%Y-%m-%d %H:%M')
+    ax.xaxis.set_major_formatter(date_fmt)
+    
+    ax.set_xlabel('Start Time (UTC)')
+    ax.set_ylabel('Power (W)')
+    ax.set_title(title)
+    ax.legend()
+    plt.xticks(rotation=45)
+    
+    logger.debug("\n%s",description)
+    plt.text(0.2, -0.5, description , transform=plt.gca().transAxes, ha='left', va='top', family='monospace',bbox=dict(facecolor='white', edgecolor='black', boxstyle='round',pad=0.5,lw=0.5,alpha=0.8))
+    plt.subplots_adjust(bottom=0.5)
+
+    # Set the y-axis to be logarithmic
+    
+    if logarithmic:
+        ax.set_yscale('log')
+
+    # Add x-axis at 0
+    ax.axhline(y=0, color='black', linestyle='--', linewidth=1)
+
+    # Save the plot to file
+    plt.savefig(filename.replace(".csv","")+ ".png", dpi=300)
