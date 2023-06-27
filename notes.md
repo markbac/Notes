@@ -1,3 +1,6 @@
+
+``` python
+
 import os
 
 def generate_book_metadata():
@@ -88,24 +91,25 @@ def generate_book_files():
 
 if __name__ == "__main__":
     generate_book_files()
+```
 
------------------------------
-Summary
-Overview of epics
-   Features
-      User stories 
-Architecture 
-   Summary 
-   Projects 
-       Components
-Openadr
-   Pas extension
-   Messages
-       Xml
-       Message flows (sequence diagrams) 
-Apis
-   Markdown of openapi yaml
-------------------------------------
+- Summary
+- Overview of epics
+    - Features
+    -  User stories 
+- Architecture 
+  - Summary 
+  - Projects 
+      - Components
+- Openadr
+  - Pas extension
+  - Messages
+      - Xml
+      - Message flows (sequence diagrams) 
+- Apis
+  - Markdown of openapi yaml
+
+``` python
 import argparse
 import pandas as pd
 import os
@@ -146,5 +150,4 @@ def main():
 if __name__ == '__main__':
     main()
 
-
-    ----------------------
+```
