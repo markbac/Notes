@@ -1,5 +1,111 @@
 
 
+<!DOCTYPE html>
+<html>
+<head>
+<title>Web Serial Example</title>
+</head>
+<body>
+<h1>Web Serial Example</h1>
+<p>This example demonstrates how to use the Web Serial API to read and write data from two serial ports.</p>
+<div id="serial-ports"></div>
+<div id="form-1">
+  <select id="port-1">
+  </select>
+  <input type="text" id="data-1" placeholder="Enter data to write to COM1">
+</div>
+<div id="form-2">
+  <select id="port-2">
+  </select>
+  <input type="text" id="data-2" placeholder="Enter data to write to COM2">
+</div>
+<div id="rxd-1"></div>
+<div id="rxd-2"></div>
+<script>
+const serial = navigator.serial;
+const connectButton = document.getElementById("connect");
+const disconnectButton = document.getElementById("disconnect");
+const dataInput1 = document.getElementById("data-1");
+const dataInput2 = document.getElementById("data-2");
+const writeButton = document.getElementById("write");
+const log = document.getElementById("log");
+const rxd1 = document.getElementById("rxd-1");
+const rxd2 = document.getElementById("rxd-2");
+
+// Get a list of available serial ports.
+async function getPorts() {
+  const ports = await navigator.serial.getPorts();
+  const availablePorts = [];
+  ports.forEach((port) => {
+    if (port.name !== "Unknown") {
+      availablePorts.push({
+        id: port.id,
+        name: port.name,
+      });
+    }
+  });
+  return availablePorts;
+}
+
+// Populate the select a port form on page load.
+window.onload = async function () {
+  const ports = await getPorts();
+  const options = [];
+  ports.forEach((port) => {
+    options.push({
+      value: port.id,
+      text: port.name,
+    });
+  });
+  document.getElementById("port-1").innerHTML = options;
+  document.getElementById("port-2").innerHTML = options;
+};
+
+// Connect to the two serial ports selected by the user.
+connectButton.addEventListener("click", async () => {
+  const port1Id = document.getElementById("port-1").value;
+  const port2Id = document.getElementById("port-2").value;
+  const port1 = await serial.requestPort(port1Id);
+  const port2 = await serial.requestPort(port2Id);
+  port1.open().then(() => {
+    log("Connected to port " + port1.name);
+  });
+  port2.open().then(() => {
+    log("Connected to port " + port2.name);
+  });
+});
+
+// Write data to the two serial ports selected by the user.
+writeButton.addEventListener("click", async () => {
+  const portId = document.getElementById("port-1").value;
+  const data = dataInput1.value;
+  await serial.send(portId, data);
+  log("Wrote data to port " + port.name);
+
+  const portId = document.getElementById("port-2").value;
+  const data = dataInput2.value;
+  await serial.send(portId, data);
+  log("Wrote data to port " + port.name);
+});
+
+// Listen for events from the two serial ports selected by the user.
+serial.addEventListener("connect", (event) => {
+  log("Port " + event.target.name + " connected");
+});
+serial.addEventListener("disconnect", (event) => {
+  log("Port " + event.target.name + " disconnected");
+});
+serial.addEventListener("data", (event) => {
+  log("Received data from port " + event.target.name + ": " + event.data);
+});
+</script>
+</body>
+</html>
+
+
+
+
+
 You are correct, the select a port form does not auto populate with serial ports in the current code. To fix this, we need to add the following code to the getPorts() function:
 
 const ports = await navigator.serial.getPorts();
