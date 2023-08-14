@@ -1,3 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Web Serial Example</title>
+</head>
+<body>
+<h1>Web Serial Example</h1>
+<p>This example demonstrates how to use the Web Serial API to read and write data from two serial ports.</p>
+<div id="serial-ports"></div>
+<button id="connect">Connect</button>
+<button id="disconnect">Disconnect</button>
+<input type="text" id="data" placeholder="Enter data to write">
+<button id="write">Write</button>
+<div id="log"></div>
+<script>
+const serial = navigator.serial;
+const port1Id = "COM1";
+const port2Id = "COM2";
+const connectButton = document.getElementById("connect");
+const disconnectButton = document.getElementById("disconnect");
+const dataInput = document.getElementById("data");
+const writeButton = document.getElementById("write");
+const log = document.getElementById("log");
+
+// Get a list of available serial ports.
+serial.getPorts().then((ports) => {
+  ports.forEach((port) => {
+    const option = document.createElement("option");
+    option.value = port.id;
+    option.textContent = port.name;
+    portList.appendChild(option);
+  });
+});
+
+// Connect to the two serial ports.
+connectButton.addEventListener("click", () => {
+  serial.requestPort(port1Id).then((port1) => {
+    serial.requestPort(port2Id).then((port2) => {
+      port1.open().then(() => {
+        log("Connected to port " + port1.name);
+      });
+      port2.open().then(() => {
+        log("Connected to port " + port2.name);
+      });
+    });
+  });
+});
+
+// Write data to the two serial ports.
+writeButton.addEventListener("click", () => {
+  const portId = portList.value;
+  const data = dataInput.value;
+  serial.send(portId, data).then(() => {
+    log("Wrote data to port " + port.name);
+  });
+});
+
+// Listen for events from the two serial ports.
+serial.addEventListener("connect", (event) => {
+  log("Port " + event.target.name + " connected");
+});
+serial.addEventListener("disconnect", (event) => {
+  log("Port " + event.target.name + " disconnected");
+});
+serial.addEventListener("data", (event) => {
+  log("Received data from port " + event.target.name + ": " + event.data);
+});
+</script>
+</body>
+</html>
+
 
 a VEN can have multiple profiles associated to it. 
 
