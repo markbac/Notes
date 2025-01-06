@@ -1,5 +1,41 @@
 # Notes
 
+## Architecture
+
+- Architecture framework and approach
+  -Products
+    - Iot devices
+    - Applications
+    - Cloud platforms
+- TOGAF
+  - ADM
+  - Architecture principles
+  - Capability framework
+  - Architecture Vision
+- ISO 30141
+- Tech Radar
+  - thoughtworks/Zalando
+- Architecture Board
+- ADR's
+- SEI ATAM
+- Delivery model
+  - Waterfall
+  - V model
+  - Agile
+    - Scrum
+- CBAM
+- Auality Attributes
+- Metrics
+- Architecturally Significant requirments
+- light weight architecture evaluations,
+- documentation
+  - docs as code
+  - mermaid
+  - arc42
+  - C4
+  -  
+
+
 ## WWFC Admin
 ### LoveAdmin
 - Shoudl we ask 2 questions on sign up to see if we can contact them, 1 for club related and 1 for partner related, e.g CANW . This is for GDPR
